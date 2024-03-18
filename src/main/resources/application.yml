@@ -1,1 +1,13 @@
-spring.application.name=payout-calculator
+spring:
+  application:
+    name: payout-calculator
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+production_calendar:
+  source: "https://production-calendar.ru/get/"
+  country: "ru"
+  format_response: "json"

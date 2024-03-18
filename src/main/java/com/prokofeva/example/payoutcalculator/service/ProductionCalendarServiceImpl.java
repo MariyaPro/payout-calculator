@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class ProductionCalendarService {
+public class ProductionCalendarServiceImpl implements ProductionCalendarService {
 
     @Value("${production_calendar.source}")
     private String sourcePath;
@@ -26,19 +26,19 @@ public class ProductionCalendarService {
 
     private final RestTemplate restTemplate = new RestTemplateBuilder().build();
 
-
+    @Override
     public Integer getAmountOfHolidays(LocalDate firstDay, Integer amountOfDays) {
         DateTimeFormatter pattern = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
         String startDay = firstDay.format(pattern);
-        String finishDay = firstDay.plusDays(amountOfDays).format(pattern);
+        String finishDay = firstDay.plusDays(amountOfDays - 1).format(pattern);
 
         String url = buildUrl(startDay, finishDay);
 
         ResponseEntity<ResponseProductionCalendarDto> responseEntity = restTemplate.getForEntity(url, ResponseProductionCalendarDto.class);
         Optional<ResponseProductionCalendarDto> optionalDto = Optional.ofNullable(responseEntity.getBody());
 
-        return optionalDto.orElseThrow(DateProductionCalendarSourceException::new).getDays().size();
+        return Integer.parseInt(optionalDto.orElseThrow(DateProductionCalendarSourceException::new).getStatistic().get("holidays"));
     }
 
     private String buildUrl(String startDay, String finishDay) {
