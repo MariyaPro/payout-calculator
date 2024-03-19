@@ -17,6 +17,7 @@ import java.time.LocalDate;
 public class RequestDto {
 
     @Digits(integer = 30, fraction = 2)
+    @PositiveOrZero
     private Double avgSalary;
 
     @PositiveOrZero
