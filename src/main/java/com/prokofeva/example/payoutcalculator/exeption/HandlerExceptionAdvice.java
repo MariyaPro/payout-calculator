@@ -15,13 +15,13 @@ public class HandlerExceptionAdvice {
 
     @ExceptionHandler(DateProductionCalendarSourceException.class)
     @ResponseBody
-    public ResponseEntity<String> handle(DateProductionCalendarSourceException e) {
+    public ResponseEntity<String> handleProductionCalendarException(DateProductionCalendarSourceException e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody
-    public ResponseEntity<List<ValidationError>> handle(MethodArgumentNotValidException e) {
+    public ResponseEntity<List<ValidationError>> handleValidationRequestException(MethodArgumentNotValidException e) {
         final List<ValidationError> errorsList = e.getBindingResult().getFieldErrors().stream()
                 .map(error -> new ValidationError(error.getField(),
                                 error.getDefaultMessage()
