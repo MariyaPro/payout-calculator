@@ -23,10 +23,8 @@ public class HandlerExceptionAdvice {
     @ResponseBody
     public ResponseEntity<List<ValidationError>> handleValidationRequestException(MethodArgumentNotValidException e) {
         final List<ValidationError> errorsList = e.getBindingResult().getFieldErrors().stream()
-                .map(error -> new ValidationError(error.getField(),
-                                error.getDefaultMessage()
-                        )
-                ).collect(Collectors.toList());
+                .map(error -> new ValidationError(error.getField(), error.getDefaultMessage()))
+                .collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorsList);
     }
 }
