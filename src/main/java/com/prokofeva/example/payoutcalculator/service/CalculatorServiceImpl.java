@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class CalculatorServiceImpl implements CalculatorService {
 
     private final ProductionCalendarService productionCalendarService;
-    private final Double AVERAGE_NUMBER_OF_DAYS_IN_A_MONTH = 29.3;
+    private static final double AVERAGE_NUMBER_OF_DAYS_IN_A_MONTH = 29.3;
 
     @Override
     public String calculate(RequestDto requestDto) {

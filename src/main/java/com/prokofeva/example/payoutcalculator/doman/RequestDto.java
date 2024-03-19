@@ -5,6 +5,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDate;
 
 @Component
@@ -13,9 +16,13 @@ import java.time.LocalDate;
 @Setter
 public class RequestDto {
 
+    @Digits(integer = 30, fraction = 2)
     private Double avgSalary;
 
+    @PositiveOrZero
+    @Max(365)
     private Integer amountOfDays;
+
 
     private LocalDate firstDay;
 }

@@ -32,8 +32,7 @@ public class CalculatorServiceImplTest {
         requestDto.setAvgSalary(293.0);
         requestDto.setAmountOfDays(2);
 
-        String payout = this.calculatorServiceImpl.calculate(requestDto);
-
+        String payout = calculatorServiceImpl.calculate(requestDto);
         requestDto.setFirstDay(LocalDate.of(2024, 3, 18));
         when(productionCalendarServiceImpl.getAmountOfHolidays(any(), any())).thenReturn(0);
         String payoutEquals = calculatorServiceImpl.calculate(requestDto);

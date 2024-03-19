@@ -2,7 +2,6 @@ package com.prokofeva.example.payoutcalculator.controller;
 
 import com.prokofeva.example.payoutcalculator.doman.RequestDto;
 import com.prokofeva.example.payoutcalculator.service.CalculatorService;
-import com.prokofeva.example.payoutcalculator.validation.RequestValidator;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,8 +28,6 @@ public class PayoutCalculatorControllerTest {
 
     @Mock
     private CalculatorService calculatorService;
-    @Mock
-    private RequestValidator requestValidator;
 
     @Test
     public void calculateTest() {
@@ -38,7 +35,6 @@ public class PayoutCalculatorControllerTest {
 
         request.setAvgSalary(293.0);
         request.setAmountOfDays(2);
-        when(requestValidator.checkRequest(any())).thenReturn(true);
         when(calculatorService.calculate(any())).thenReturn("20.00");
         ResponseEntity<Object> responseEntity = payoutCalculatorController.calculate(request);
         assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
