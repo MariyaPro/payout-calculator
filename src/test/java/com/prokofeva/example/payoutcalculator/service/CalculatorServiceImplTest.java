@@ -1,6 +1,9 @@
 package com.prokofeva.example.payoutcalculator.service;
 
-import com.prokofeva.example.payoutcalculator.doman.RequestDto;
+import com.prokofeva.example.payoutcalculator.domain.RequestDto;
+import com.prokofeva.example.payoutcalculator.domain.ResponsePayoutDto;
+import com.prokofeva.example.payoutcalculator.service.impl.CalculatorServiceImpl;
+import com.prokofeva.example.payoutcalculator.service.impl.ProductionCalendarServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -26,20 +29,20 @@ public class CalculatorServiceImplTest {
         requestDto.setAvgSalary(293.0);
         requestDto.setAmountOfDays(2);
 
-        String payout = calculatorServiceImpl.calculate(requestDto);
+        ResponsePayoutDto payout = calculatorServiceImpl.calculate(requestDto);
 
         requestDto.setFirstDay(LocalDate.of(2024, 3, 6));
         when(productionCalendarServiceImpl.getAmountOfHolidays(any(), any())).thenReturn(0);
-        String payoutEquals = calculatorServiceImpl.calculate(requestDto);
+        ResponsePayoutDto payoutEquals = calculatorServiceImpl.calculate(requestDto);
 
         requestDto.setFirstDay(LocalDate.of(2024, 3, 7));
         when(productionCalendarServiceImpl.getAmountOfHolidays(any(), any())).thenReturn(1);
-        String payoutNotEquals = calculatorServiceImpl.calculate(requestDto);
+        ResponsePayoutDto payoutNotEquals = calculatorServiceImpl.calculate(requestDto);
 
         verify(productionCalendarServiceImpl, times(2)).getAmountOfHolidays(any(), any());
-        assertEquals(payout, "20.00");
+        assertEquals(payout.getAmount(), 20.0);
         assertEquals(payout, payoutEquals);
-        assertEquals(payoutNotEquals, "10.00");
+        assertEquals(payoutNotEquals.getAmount(), 10.0);
     }
 }
 

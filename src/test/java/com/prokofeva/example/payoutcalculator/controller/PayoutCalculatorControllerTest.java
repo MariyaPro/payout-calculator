@@ -1,7 +1,8 @@
 package com.prokofeva.example.payoutcalculator.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.prokofeva.example.payoutcalculator.doman.RequestDto;
+import com.prokofeva.example.payoutcalculator.domain.RequestDto;
+import com.prokofeva.example.payoutcalculator.domain.ResponsePayoutDto;
 import com.prokofeva.example.payoutcalculator.exeption.ValidationError;
 import com.prokofeva.example.payoutcalculator.service.CalculatorService;
 import org.junit.jupiter.api.Test;
@@ -51,16 +52,16 @@ public class PayoutCalculatorControllerTest {
 
         request.setAvgSalary(293.0);
         request.setAmountOfDays(2);
-        when(calculatorService.calculate(any())).thenReturn("20.00");
-        ResponseEntity<Object> responseEntity = payoutCalculatorController.calculate(request);
+        when(calculatorService.calculate(any())).thenReturn(new ResponsePayoutDto(20.0));
+        ResponseEntity<ResponsePayoutDto> responseEntity = payoutCalculatorController.calculate(request);
         assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
-        assertEquals(responseEntity.getBody(), "20.00");
+        assertEquals(responseEntity.getBody().getAmount(), 20.0);
 
         request.setFirstDay(LocalDate.of(2024, 3, 7));
-        when(calculatorService.calculate(any())).thenReturn("10.00");
+        when(calculatorService.calculate(any())).thenReturn(new ResponsePayoutDto(10.0));
         responseEntity = payoutCalculatorController.calculate(request);
         assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
-        assertEquals(responseEntity.getBody(), "10.00");
+        assertEquals(responseEntity.getBody().getAmount(), 10.0);
     }
 
     @Test

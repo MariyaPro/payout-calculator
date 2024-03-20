@@ -1,6 +1,7 @@
 package com.prokofeva.example.payoutcalculator.controller;
 
-import com.prokofeva.example.payoutcalculator.doman.RequestDto;
+import com.prokofeva.example.payoutcalculator.domain.RequestDto;
+import com.prokofeva.example.payoutcalculator.domain.ResponsePayoutDto;
 import com.prokofeva.example.payoutcalculator.service.CalculatorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ public class PayoutCalculatorController {
 
     @GetMapping("/calculate")
     @ResponseBody
-    public ResponseEntity<Object> calculate(@Valid @RequestBody RequestDto requestDto) {
+    public ResponseEntity<ResponsePayoutDto> calculate(@Valid @RequestBody RequestDto requestDto) {
         return ResponseEntity.status(HttpStatus.OK).body(calculatorService.calculate(requestDto));
     }
 }
