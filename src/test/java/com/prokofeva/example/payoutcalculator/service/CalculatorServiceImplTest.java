@@ -1,30 +1,24 @@
 package com.prokofeva.example.payoutcalculator.service;
 
 import com.prokofeva.example.payoutcalculator.doman.RequestDto;
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
-@RequiredArgsConstructor
-public class CalculatorServiceTest {
+public class CalculatorServiceImplTest {
 
     @InjectMocks
-    private CalculatorService calculatorService;
+    private CalculatorServiceImpl calculatorServiceImpl;
 
     @Mock
-    private ProductionCalendarService productionCalendarService;
+    private ProductionCalendarServiceImpl productionCalendarServiceImpl;
 
     @Test
     public void calculateTest() {
@@ -32,19 +26,22 @@ public class CalculatorServiceTest {
         requestDto.setAvgSalary(293.0);
         requestDto.setAmountOfDays(2);
 
-        String payout = this.calculatorService.calculate(requestDto);
+        String payout = calculatorServiceImpl.calculate(requestDto);
 
-        requestDto.setFirstDay(LocalDate.of(2024, 3, 18));
-        when(productionCalendarService.getAmountOfHolidays(any(), any())).thenReturn(0);
-        String payoutEquals = calculatorService.calculate(requestDto);
+        requestDto.setFirstDay(LocalDate.of(2024, 3, 6));
+        when(productionCalendarServiceImpl.getAmountOfHolidays(any(), any())).thenReturn(0);
+        String payoutEquals = calculatorServiceImpl.calculate(requestDto);
 
         requestDto.setFirstDay(LocalDate.of(2024, 3, 7));
-        when(productionCalendarService.getAmountOfHolidays(any(), any())).thenReturn(1);
-        String payoutNotEquals = calculatorService.calculate(requestDto);
+        when(productionCalendarServiceImpl.getAmountOfHolidays(any(), any())).thenReturn(1);
+        String payoutNotEquals = calculatorServiceImpl.calculate(requestDto);
 
-        verify(productionCalendarService, times(2)).getAmountOfHolidays(any(), any());
+        verify(productionCalendarServiceImpl, times(2)).getAmountOfHolidays(any(), any());
+        assertEquals(payout, "20.00");
         assertEquals(payout, payoutEquals);
-        assertTrue(Double.parseDouble(payout) > Double.parseDouble(payoutNotEquals));
+        assertEquals(payoutNotEquals, "10.00");
     }
-
 }
+
+
+
