@@ -24,6 +24,5 @@ public class RequestDto {
     @Max(365)
     private Integer amountOfDays;
 
-
     private LocalDate firstDay;
 }

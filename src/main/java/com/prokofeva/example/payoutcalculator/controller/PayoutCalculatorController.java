@@ -23,6 +23,5 @@ public class PayoutCalculatorController {
     @ResponseBody
     public ResponseEntity<Object> calculate(@Valid @RequestBody RequestDto requestDto) {
         return ResponseEntity.status(HttpStatus.OK).body(calculatorService.calculate(requestDto));
-
     }
 }

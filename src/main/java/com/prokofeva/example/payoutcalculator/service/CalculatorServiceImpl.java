@@ -11,6 +11,7 @@ public class CalculatorServiceImpl implements CalculatorService {
     private final ProductionCalendarService productionCalendarService;
     private static final double AVERAGE_NUMBER_OF_DAYS_IN_A_MONTH = 29.3;
 
+
     @Override
     public String calculate(RequestDto requestDto) {
         double paymentOneDay = requestDto.getAvgSalary() / AVERAGE_NUMBER_OF_DAYS_IN_A_MONTH;
