@@ -1,7 +1,8 @@
 package com.prokofeva.example.payoutcalculator.service;
 
-import com.prokofeva.example.payoutcalculator.doman.RequestDto;
+import com.prokofeva.example.payoutcalculator.domain.RequestDto;
+import com.prokofeva.example.payoutcalculator.domain.ResponsePayoutDto;
 
 public interface CalculatorService {
-    String calculate(RequestDto requestDto);
+    ResponsePayoutDto calculate(RequestDto requestDto);
 }
