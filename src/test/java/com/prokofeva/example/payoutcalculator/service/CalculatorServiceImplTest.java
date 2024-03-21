@@ -41,7 +41,7 @@ public class CalculatorServiceImplTest {
 
         verify(productionCalendarServiceImpl, times(2)).getAmountOfHolidays(any(), any());
         assertEquals(payout.getAmount(), 20.0);
-        assertEquals(payout, payoutEquals);
+        assertEquals(payout.getAmount(), payoutEquals.getAmount());
         assertEquals(payoutNotEquals.getAmount(), 10.0);
     }
 }

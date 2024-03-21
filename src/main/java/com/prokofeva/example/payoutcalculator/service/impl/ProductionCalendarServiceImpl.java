@@ -23,15 +23,14 @@ public class ProductionCalendarServiceImpl implements ProductionCalendarService 
     private String country;
     @Value("${production_calendar.format_response}")
     private String formatResponse;
+    private final WebClient webClient = WebClient.builder().build();
 
     @Override
     public Integer getAmountOfHolidays(LocalDate firstDay, Integer amountOfDays) {
         String period = buildPeriod(firstDay, amountOfDays);
 
-        WebClient webClient = WebClient.builder().baseUrl(sourcePath).build();
-
         ResponseProductionCalendarDto productionCalendarDtoMono = webClient.get()
-                .uri(String.join("/", country, period, formatResponse))
+                .uri(String.join("/", sourcePath, country, period, formatResponse))
                 .retrieve()
                 .bodyToMono(ResponseProductionCalendarDto.class)
                 .onErrorResume(e -> Mono.error(DateProductionCalendarSourceException::new))
@@ -46,9 +45,9 @@ public class ProductionCalendarServiceImpl implements ProductionCalendarService 
     private String buildPeriod(LocalDate firstDay, Integer amountOfDays) {
         DateTimeFormatter pattern = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-        String startDay = firstDay.format(pattern);
-        String finishDay = firstDay.plusDays(amountOfDays - 1).format(pattern);
+        String startDayInclusive = firstDay.format(pattern);
+        String finishDayInclusive = firstDay.plusDays(amountOfDays - 1).format(pattern);
 
-        return String.join("-", startDay, finishDay);
+        return String.join("-", startDayInclusive, finishDayInclusive);
     }
 }
